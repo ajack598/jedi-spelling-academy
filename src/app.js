@@ -111,32 +111,29 @@ function makeStars() {
 // ═══════════════════════════════════════════
 function generateHint(word) {
   const w = word.toUpperCase();
-  const len = w.length;
-  // Reveal 2 or 3 letters depending on length
-  const revealCount = len <= 5 ? 2 : len <= 9 ? 2 : 3;
-  
-  // Always reveal first letter; pick remaining from non-adjacent positions
-  const revealed = new Set([0]);
-  
-  // Pick random interior positions (not first or last)
-  const interior = [];
-  for (let i = 1; i < len - 1; i++) {
-    if (w[i] !== ' ') interior.push(i);
+
+  // Reveal about 50% of the actual letters, ignoring spaces.
+  // Always leave at least one letter hidden so the player still has to spell.
+  const letterPositions = [];
+  for (let i = 0; i < w.length; i++) {
+    if (w[i] !== ' ') letterPositions.push(i);
   }
-  // Shuffle interior
-  for (let i = interior.length - 1; i > 0; i--) {
+
+  const revealCount = Math.min(
+    Math.ceil(letterPositions.length * 0.5),
+    Math.max(1, letterPositions.length - 1)
+  );
+
+  // Always reveal the first letter, then randomly reveal more letters.
+  const revealed = new Set([letterPositions[0]]);
+  const remaining = letterPositions.slice(1);
+
+  for (let i = remaining.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [interior[i], interior[j]] = [interior[j], interior[i]];
+    [remaining[i], remaining[j]] = [remaining[j], remaining[i]];
   }
-  // Add extra revealed letters (not adjacent to already revealed)
-  for (const idx of interior) {
-    if (revealed.size >= revealCount) break;
-    // Check not adjacent to existing revealed
-    const tooClose = [...revealed].some(r => Math.abs(r - idx) <= 1);
-    if (!tooClose) revealed.add(idx);
-  }
-  // Fallback: if we still don't have enough, add from interior
-  for (const idx of interior) {
+
+  for (const idx of remaining) {
     if (revealed.size >= revealCount) break;
     revealed.add(idx);
   }
