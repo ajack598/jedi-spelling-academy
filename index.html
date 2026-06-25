@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jedi Spelling Academy</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+
+<div id="stars"></div>
+
+<div id="app">
+
+  <div class="header">
+    <div class="title">JEDI SPELLING<br>ACADEMY</div>
+    <div class="subtitle">Train your mind &mdash; master the Force of words</div>
+  </div>
+
+  <!-- NAME SCREEN -->
+  <div id="screen-name" class="screen active">
+    <div class="name-card">
+      <h2>IDENTIFY YOURSELF, PADAWAN</h2>
+      <p>Enter your name to begin your training. Your streak record will be saved to the Jedi Archives.</p>
+      <div style="margin-bottom:14px;">
+        <input type="text" id="player-name-input" placeholder="Your name..." maxlength="20"
+          style="width:100%; margin-bottom:12px;" autocomplete="off">
+        <button class="btn btn-primary" style="width:100%;" onclick="startGame()">BEGIN TRAINING</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="screen-game" class="screen">
+
+    <div class="hud">
+      <div class="hud-item">
+        <div class="hud-label">Padawan</div>
+        <div class="hud-value" id="hud-name" style="font-size:1rem;">—</div>
+      </div>
+      <div class="hud-divider"></div>
+      <div class="hud-item">
+        <div class="hud-label">Streak</div>
+        <div class="hud-value streak-fire" id="hud-streak">0</div>
+      </div>
+      <div class="hud-divider"></div>
+      <div class="hud-item">
+        <div class="hud-label">Best</div>
+        <div class="hud-value" id="hud-best">0</div>
+      </div>
+    </div>
+
+    <div class="saber-track" id="saber-track"></div>
+
+    <div class="rank-title" id="rank-title">YOUNGLING</div>
+
+    <div class="record-banner" id="record-banner">⚡ NEW PERSONAL RECORD! ⚡</div>
+
+    <div class="game-card">
+      <div class="word-meta">
+        <div class="word-count" id="word-count">Word 1</div>
+        <div class="rank-badge" id="rank-badge">PADAWAN</div>
+      </div>
+
+      <div class="definition-label">Mission Briefing</div>
+      <div class="definition-text" id="definition-text">Loading...</div>
+
+      <div class="hint-label">Intelligence Report — Partial Intercept</div>
+      <div class="hint-display" id="hint-display"></div>
+
+      <div class="answer-label">Your Response</div>
+      <div class="input-row">
+        <input type="text" id="answer-input" placeholder="Type the word..." autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()">TRANSMIT</button>
+      </div>
+
+      <div class="feedback" id="feedback"></div>
+      <div class="example-area" id="example-area"></div>
+    </div>
+
+    <div class="next-area" id="next-area" style="display:none;">
+      <button class="btn btn-secondary" onclick="nextWord()">NEXT WORD →</button>
+    </div>
+
+  </div>
+
+  <!-- GAME OVER SCREEN -->
+  <div id="screen-gameover" class="screen">
+    <div class="gameover-panel">
+      <div class="gameover-title">TRAINING ENDED</div>
+      <div class="gameover-score" id="go-score">0</div>
+      <div class="gameover-label">Word Streak</div>
+      <div class="gameover-message" id="go-message">The Force was not with you today, Padawan.</div>
+      <div class="gameover-wrong" id="go-wrong"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="restartGame()">TRY AGAIN</button>
+        <button class="btn btn-secondary" onclick="showLeaderboard()">JEDI ARCHIVES</button>
+      </div>
+    </div>
+    <div id="go-leaderboard"></div>
+  </div>
+
+  <!-- LEADERBOARD SCREEN -->
+  <div id="screen-leaderboard" class="screen">
+    <div class="leaderboard-panel">
+      <div class="lb-header">
+        <div class="lb-title">⚡ Jedi Archives — Streak Records</div>
+        <button class="btn btn-danger" onclick="clearLeaderboard()">PURGE</button>
+      </div>
+      <ul class="lb-list" id="lb-list"></ul>
+    </div>
+    <div class="btn-row" style="margin-top:16px;">
+      <button class="btn btn-primary" onclick="restartGame()">NEW MISSION</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="src/words.js" defer></script>
+<script src="src/app.js" defer></script>
+</body>
+</html>
